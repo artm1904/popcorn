@@ -4,10 +4,15 @@
 //------------------------------------------------------------------------------------------------------------
 AColor::AColor(unsigned char r, unsigned char g, unsigned char b)
     : R(r), G(g), B(b) {}
+
+
+    int AColor::Get_RGB() const{
+     return RGB(R,G,B);
+    }
 //------------------------------------------------------------------------------------------------------------
 
 // AsConfig
-bool AsConfig::Level_Has_Floor = true;
+bool AsConfig::Level_Has_Floor = false;
 int AsConfig::Current_Timer_Tick = 0;
 
 const AColor AsConfig::BG_Color(15, 63, 31);
