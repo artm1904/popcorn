@@ -1,4 +1,4 @@
 .cache
 .vscode
-build
+/build
 sourcer_file_to_compare.zip

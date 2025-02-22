@@ -5,10 +5,7 @@
 AColor::AColor(unsigned char r, unsigned char g, unsigned char b)
     : R(r), G(g), B(b) {}
 
-
-    int AColor::Get_RGB() const{
-     return RGB(R,G,B);
-    }
+int AColor::Get_RGB() const { return RGB(R, G, B); }
 //------------------------------------------------------------------------------------------------------------
 
 // AsConfig

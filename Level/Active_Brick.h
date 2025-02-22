@@ -6,7 +6,7 @@
 enum EBrick_Type {
   EBT_None,
 
-   EBT_Red,
+  EBT_Red,
   EBT_Blue,
   EBT_Unbreakable,
   EBT_Multihit,
@@ -18,16 +18,25 @@ enum EBrick_Type {
   EBT_Teleport,
   EBT_Ad,
 };
+
+class AGraphics_Object {
+
+public:
+  virtual ~AGraphics_Object()=default;
+  void virtual Draw(HDC hdc, RECT &paint_area) = 0;
+  void virtual Act() = 0;
+  bool virtual Is_Finished() = 0;
+};
+
 //------------------------------------------------------------------------------------------------------------
-class AActive_Brick {
+class AActive_Brick : public AGraphics_Object {
 public:
   AActive_Brick(EBrick_Type brick_type, int level_x, int level_y);
+  virtual ~AActive_Brick() override;
+  void Act() override;
+  bool Is_Finished() override;
+  void Draw(HDC hdc, RECT &paint_area) override;
 
-  void Act();
-  void Draw(HDC hdc, RECT &paint_area);
-  bool Is_Finished();
-
-  
   static void Setup_Colors();
 
 private:

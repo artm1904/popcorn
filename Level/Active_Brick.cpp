@@ -20,6 +20,11 @@ AActive_Brick::AActive_Brick(EBrick_Type brick_type, int level_x, int level_y)
   Brick_Rect.bottom =
       Brick_Rect.top + AsConfig::Brick_Height * AsConfig::Global_Scale;
 }
+
+AActive_Brick::~AActive_Brick()
+{
+    // Здесь можно добавить код для освобождения ресурсов, если это необходимо
+}
 //------------------------------------------------------------------------------------------------------------
 void AActive_Brick::Act() {
   if (Fade_Step < Max_Fade_Step - 1) {
