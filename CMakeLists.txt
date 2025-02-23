@@ -11,6 +11,7 @@ set(SOURCES
     ../Ball/Ball.cpp
     ../Platform/Platform.cpp
     ../Level/Active_Brick.cpp
+    ../Level/Falling_Letter.cpp
     # Main.cpp
     # Engine.cpp
     # Border.cpp
@@ -30,6 +31,7 @@ set(HEADERS
     ../Ball/Ball.h
     ../Platform/Platform.h
     ../Level/Active_Brick.h
+    ../Level/Falling_Letter.h
     # Engine.h
     # Border.h
     # Level.h

@@ -1,4 +1,7 @@
 ﻿#include "Engine.h"
+#include <cstdlib>
+#include <sysinfoapi.h>
+#include <timezoneapi.h>
 #include <wingdi.h>
 
 // AsEngine
@@ -6,6 +9,13 @@
 AsEngine::AsEngine() : Game_State(EGS_Play_Level) {}
 //------------------------------------------------------------------------------------------------------------
 void AsEngine::Init_Engine(HWND hwnd) { // Настройка игры при старте
+
+  SYSTEMTIME sys_time;
+  FILETIME file_time;
+  GetSystemTime(&sys_time);
+  SystemTimeToFileTime(&sys_time, &file_time);
+
+  srand(file_time.dwLowDateTime);
 
   AsConfig::Hwnd = hwnd;
 
@@ -41,15 +51,12 @@ void AsEngine::Draw_Frame(HDC hdc, RECT &paint_area) { // Отрисовка э�
   Platform.Draw(hdc, paint_area);
   Ball.Draw(hdc, paint_area);
 
-
-
   // COLORREF pixel;
   // for (int i = 0; i < 84 * 21; i++) {
   //   pixel = GetPixel(hdc, 100, 100);
   //   SetPixel(hdc, 100, 100, pixel);
-  
-  // }
 
+  // }
 
   int a;
 }
@@ -57,21 +64,11 @@ void AsEngine::Draw_Frame(HDC hdc, RECT &paint_area) { // Отрисовка э�
 int AsEngine::On_Key_Down(EKey_Type key_type) {
   switch (key_type) {
   case EKT_Left:
-    Platform.X_Pos -= Platform.X_Step;
-
-    if (Platform.X_Pos <= AsConfig::Border_X_Offset)
-      Platform.X_Pos = AsConfig::Border_X_Offset;
-
-    Platform.Redraw_Platform();
+    Platform.Move(true);
     break;
 
   case EKT_Right:
-    Platform.X_Pos += Platform.X_Step;
-
-    if (Platform.X_Pos >= AsConfig::Max_X_Pos - Platform.Width + 1)
-      Platform.X_Pos = AsConfig::Max_X_Pos - Platform.Width + 1;
-
-    Platform.Redraw_Platform();
+    Platform.Move(false);
     break;
 
   case EKT_Space:
