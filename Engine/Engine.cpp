@@ -6,7 +6,7 @@
 
 // AsEngine
 //------------------------------------------------------------------------------------------------------------
-AsEngine::AsEngine() : Game_State(EGS_Play_Level) {}
+AsEngine::AsEngine() : Game_State(EGS_Lost_Ball) {}
 //------------------------------------------------------------------------------------------------------------
 void AsEngine::Init_Engine(HWND hwnd) { // Настройка игры при старте
 
@@ -32,9 +32,9 @@ void AsEngine::Init_Engine(HWND hwnd) { // Настройка игры при с
 
   Level.Set_Current_Level(AsLevel::Level_01);
 
-  Ball.Set_State(EBS_Normal, Platform.X_Pos + Platform.Width / 2.);
+  //Ball.Set_State(EBS_Normal, Platform.X_Pos + Platform.Width / 2.);
 
-  Platform.Set_State(EPS_Normal);
+  //Platform.Set_State(EPS_Normal);
 
   Platform.Redraw_Platform();
 
@@ -51,14 +51,7 @@ void AsEngine::Draw_Frame(HDC hdc, RECT &paint_area) { // Отрисовка э�
   Platform.Draw(hdc, paint_area);
   Ball.Draw(hdc, paint_area);
 
-  // COLORREF pixel;
-  // for (int i = 0; i < 84 * 21; i++) {
-  //   pixel = GetPixel(hdc, 100, 100);
-  //   SetPixel(hdc, 100, 100, pixel);
 
-  // }
-
-  int a;
 }
 //------------------------------------------------------------------------------------------------------------
 int AsEngine::On_Key_Down(EKey_Type key_type) {

@@ -9,7 +9,7 @@ AsPlatform::~AsPlatform() { delete[] Normal_Platform_Image; }
 
 AsPlatform::AsPlatform()
     : X_Pos(AsConfig::Border_X_Offset), X_Step(AsConfig::Global_Scale * 2),
-      Platform_State(EPS_Normal), Inner_Width(Normal_Platform_Inner_Width),
+      Platform_State(EPS_Missing), Inner_Width(Normal_Platform_Inner_Width),
       Rolling_Step(0), Normal_Platform_Image_Width(0),
       Normal_Platform_Image_Height(0), Normal_Platform_Image(0),
       Width(Normal_Width), Platform_Rect{}, Prev_Platform_Rect{},
@@ -215,6 +215,7 @@ void AsPlatform::Draw(HDC hdc, RECT &paint_area) { // Рисуем платфо�
 
   switch (Platform_State) {
   case EPS_Normal:
+  case EPS_Ready:
     Draw_Normal_State(hdc, paint_area);
     break;
 
@@ -326,7 +327,7 @@ void AsPlatform::Draw_Normal_State(
   x *= AsConfig::Global_Scale;
   y *= AsConfig::Global_Scale;
 
-  if (Normal_Platform_Image == 0) {
+  if (Normal_Platform_Image == 0 &&  Platform_State == EPS_Ready) {
 
     Normal_Platform_Image_Width = Width * AsConfig::Global_Scale;
     Normal_Platform_Image_Height = Height * AsConfig::Global_Scale;
@@ -482,7 +483,7 @@ void AsPlatform::Draw_Roll_In_State(
   SelectObject(hdc, AsConfig::BG_Brush);
 
   Rectangle(hdc, -AsConfig::Global_Scale / 2, -roller_size / 2,
-            AsConfig::Global_Scale / 2 - 1, roller_size / 2 - 1);
+            AsConfig::Global_Scale / 2 , roller_size / 2 );
 
   SetWorldTransform(hdc, &old_xform);
 
