@@ -1,9 +1,10 @@
 #include "Falling_Letter.h"
+#include <Windows.h>
 
 AFalling_Letter::AFalling_Letter(EBrick_Type brick_type,
                                  ELetter_Type letter_type, int x, int y)
-    : Letter_Type(letter_type), Brick_Type{brick_type}, Got_Hit(false), X(x),
-      Y(y), Rotation_Step(2),
+    : Letter_Type(letter_type), Brick_Type{brick_type},
+      Falling_Letter_State(EFLS_Normal), X(x), Y(y), Rotation_Step(2),
       Next_Rotation_Step(AsConfig::Current_Timer_Tick + Ticks_Per_Step) {
 
   Letter_Cell.left = X;
@@ -21,6 +22,16 @@ AFalling_Letter::~AFalling_Letter() {
 }
 
 void AFalling_Letter::Act() {
+
+  if (Falling_Letter_State != EFLS_Normal) {
+    return;
+  }
+
+  if (Letter_Cell.top >= AsConfig::Max_Y_Pos * AsConfig::Global_Scale) {
+    Finalize();
+    return;
+  }
+
   Prev_Letter_Cell = Letter_Cell;
 
   Y += AsConfig::Global_Scale;
@@ -49,6 +60,11 @@ void AFalling_Letter::Draw(HDC hdc, RECT &paint_area) {
               Prev_Letter_Cell.right, Prev_Letter_Cell.bottom);
   }
 
+  if (Falling_Letter_State == EFLS_Finalizing) {
+    Falling_Letter_State = EFLS_Finalized;
+    return;
+  }
+
   if (IntersectRect(&intersection_rect, &paint_area, &Letter_Cell)) {
     Draw_Brick_Letter(hdc);
   }
@@ -56,13 +72,30 @@ void AFalling_Letter::Draw(HDC hdc, RECT &paint_area) {
 
 bool AFalling_Letter::Is_Finished() {
 
-  if (Got_Hit ||
-      Letter_Cell.top >= AsConfig::Max_Y_Pos * AsConfig::Global_Scale) {
+  if (Falling_Letter_State == EFLS_Finalized) {
+
     return true;
   } else {
-
     return false;
   }
+
+  // if (Got_Hit ||
+  //     Letter_Cell.top >= AsConfig::Max_Y_Pos * AsConfig::Global_Scale) {
+  //   return true;
+  // } else {
+
+  //   return false;
+  // }
+}
+
+void AFalling_Letter::Get_Letter_Cell(RECT &rect) { rect = Letter_Cell; }
+
+void AFalling_Letter::Finalize() {
+
+  Falling_Letter_State = EFLS_Finalizing;
+
+  InvalidateRect(AsConfig::Hwnd, &Prev_Letter_Cell, FALSE);
+  InvalidateRect(AsConfig::Hwnd, &Letter_Cell, FALSE);
 }
 
 void AFalling_Letter::Draw_Brick_Letter(HDC hdc) { // Вывод падающей буквы

@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "../Ball/Ball.h"
+#include "../Level/Falling_Letter.h"
 
 //------------------------------------------------------------------------------------------------------------
 enum EPlatform_State {
@@ -26,7 +27,9 @@ public:
   void Redraw_Platform();
   void Draw(HDC hdc, RECT &paint_area);
 
-  void Move (bool to_left);
+  void Move(bool to_left);
+
+  bool Hit_By(AFalling_Letter *falling_letter);
 
   int X_Pos;
   int Width;
@@ -37,7 +40,8 @@ private:
   void Draw_Circle_Highlight(HDC hdc, int x, int y);
   void Draw_Normal_State(HDC hdc, RECT &paint_area);
   void Draw_Meltdown_State(HDC hdc, RECT &paint_area);
-  bool Get_Platform_Image_Stroke_Color(int x, int y, HPEN &color_pen, int &stroke_len);
+  bool Get_Platform_Image_Stroke_Color(int x, int y, HPEN &color_pen,
+                                       int &stroke_len);
   void Draw_Roll_In_State(HDC hdc, RECT &paint_area);
   void Draw_Expanding_Roll_In_State(HDC hdc, RECT &paint_area);
   bool Reflect_On_Circle(double next_x_pos, double next_y_pos,
@@ -57,7 +61,8 @@ private:
 
   RECT Platform_Rect, Prev_Platform_Rect;
 
-  AColor Highlight_Pen_Color, Platform_Circle_Pen_Color, Platform_Inner_Pen_Color;
+  AColor Highlight_Pen_Color, Platform_Circle_Pen_Color,
+      Platform_Inner_Pen_Color;
 
   HPEN Highlight_Pen, Platform_Circle_Pen, Platform_Inner_Pen;
   HBRUSH Platform_Circle_Brush, Platform_Inner_Brush;

@@ -51,7 +51,7 @@ public:
   static const int Max_Falling_Letters_Count = 10;
 
   // Probability of hits per letter equals 1.0/ Hits_Per_Letter
-  static const int Hits_Per_Letter = 2;
+  static const int Hits_Per_Letter = 1;
   static constexpr double Moving_Step_Size = 1.0 / AsConfig::Global_Scale;
 };
 //------------------------------------------------------------------------------------------------------------

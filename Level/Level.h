@@ -8,9 +8,9 @@
 
 
 //------------------------------------------------------------------------------------------------------------
-class ALevel : public AHit_Checker {
+class AsLevel : public AHit_Checker {
 public:
-  ALevel();
+  AsLevel();
 
   virtual bool Check_Hit(double next_x_pos, double next_y_pos, ABall *ball);
 
@@ -20,6 +20,9 @@ public:
   void Act();
   void Act_Objects(AGraphics_Object **objects_array, int object_max_count);
   void Draw(HDC hdc, RECT &paint_area);
+
+
+  bool Get_Next_Falling_Letter(int &index, AFalling_Letter **falling_letter);
 
   // AActive_Brick Active_Brick;
   static char Level_01[AsConfig::Level_Height][AsConfig::Level_Width];

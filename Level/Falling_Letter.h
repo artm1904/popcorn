@@ -9,6 +9,13 @@ enum ELetter_Type {
 };
 
 
+enum EFalling_Letter_State {
+
+  EFLS_Normal,
+  EFLS_Finalizing,  //Start to delete object
+  EFLS_Finalized, //End to delete object
+
+};
 
 class AFalling_Letter : public AGraphics_Object {
 
@@ -21,9 +28,11 @@ public:
   void Draw(HDC hdc, RECT &paint_area) override;
   bool Is_Finished() override;
 
+  void Get_Letter_Cell(RECT &rect);
+  void Finalize();
+
   const ELetter_Type Letter_Type;
   const EBrick_Type Brick_Type;
-  bool Got_Hit;
 
 private:
   void Draw_Brick_Letter(HDC hdc);
@@ -34,6 +43,7 @@ private:
 
   RECT Letter_Cell, Prev_Letter_Cell;
 
+  EFalling_Letter_State Falling_Letter_State;
   int X;
   int Y;
   int Rotation_Step;

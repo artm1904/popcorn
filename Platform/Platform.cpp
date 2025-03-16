@@ -1,4 +1,5 @@
 ﻿#include "Platform.h"
+#include <Windows.h>
 #include <wingdi.h>
 
 // AsPlatform
@@ -233,17 +234,35 @@ void AsPlatform::Draw(HDC hdc, RECT &paint_area) { // Рисуем платфо�
 
 void AsPlatform::Move(bool to_left) {
 
+  if (Platform_State != EPS_Normal) {
+    return;
+  }
+
   if (to_left) {
     X_Pos -= X_Step;
     if (X_Pos <= AsConfig::Border_X_Offset)
       X_Pos = AsConfig::Border_X_Offset;
     Redraw_Platform();
   } else {
-    
+
     X_Pos += X_Step;
     if (X_Pos >= AsConfig::Max_X_Pos - Width + 1)
       X_Pos = AsConfig::Max_X_Pos - Width + 1;
     Redraw_Platform();
+  }
+}
+
+bool AsPlatform::Hit_By(AFalling_Letter *falling_letter) {
+
+  RECT intersection_rect, falling_letter_rect;
+
+  falling_letter->Get_Letter_Cell(falling_letter_rect);
+
+  if (IntersectRect(&intersection_rect, &falling_letter_rect, &Platform_Rect)) {
+
+    return true;
+  } else {
+    return false;
   }
 }
 

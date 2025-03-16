@@ -20,6 +20,7 @@ set(SOURCES
     # Ball.cpp
     # Platform.cpp
     # Active_Brick.cpp
+    
 )
 
 # Определение переменных с include файлами
